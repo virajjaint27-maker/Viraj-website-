@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viraj | Portfolio</title>
+    <style>
+        :root {
+            --bg-color: #050505;
+            --text-main: #f5f5f7;
+            --text-muted: #86868b;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --accent-1: #ff2a5f;
+            --accent-2: #007aff;
+            --accent-3: #ff9500;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Liquid Background Effect */
+        .liquid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+            animation: float 20s infinite alternate ease-in-out;
+        }
+
+        .blob-1 {
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(255,42,95,0.4) 0%, rgba(0,0,0,0) 70%);
+            animation-delay: 0s;
+        }
+
+        .blob-2 {
+            bottom: -20%;
+            right: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(0,122,255,0.3) 0%, rgba(0,0,0,0) 70%);
+            animation-delay: -5s;
+        }
+
+        .blob-3 {
+            top: 40%;
+            left: 40%;
+            width: 40vw;
+            height: 40vw;
+            background: radial-gradient(circle, rgba(255,149,0,0.2) 0%, rgba(0,0,0,0) 70%);
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(10vw, 10vh) scale(1.1); }
+            66% { transform: translate(-5vw, 15vh) scale(0.9); }
+            100% { transform: translate(5vw, -5vh) scale(1.05); }
+        }
+
+        /* Layout & Typography */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 0;
+        }
+
+        h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #fff 0%, #a5a5a5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            margin-bottom: 24px;
+        }
+
+        p {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            max-width: 800px;
+        }
+
+        .highlight {
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--card-border);
+            border-radius: 32px;
+            padding: 48px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+        }
+
+        /* Specific Sections */
+        .hero {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .hero p {
+            margin: 0 auto;
+        }
+
+        .split-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        .split-reverse {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .image-wrapper {
+            position: relative;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            aspect-ratio: 3/4;
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .image-wrapper:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Depth of Field / Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px) scale(0.95);
+            filter: blur(15px);
+            transition: all 1.2s cubic-bezier(0.25, 1, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+
+        @media (max-width: 768px) {
+            .split-section {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+            .split-reverse .image-wrapper {
+                order: -1;
+            }
+            .glass-card {
+                padding: 32px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Liquid Background -->
+    <div class="liquid-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="container">
+        
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="reveal">
+                <h1>Hi, I’m Viraj</h1>
+                <p class="delay-1">— a student, a learner, and someone who believes in constantly improving himself.</p>
+            </div>
+        </section>
+
+        <!-- Image & Intro Section -->
+        <section class="split-section">
+            <div class="image-wrapper reveal">
+                <!-- Using 705.jpg for the clean portrait -->
+                <img src="705.jpg" alt="Viraj Portrait">
+            </div>
+            <div class="glass-card reveal delay-2">
+                <h2>Building the Foundation</h2>
+                <p>At this stage of my life, I’m focused on building a strong foundation for my future. I have a deep interest in learning new things, whether it’s academics, technology, or understanding how the world works.</p>
+                <p>I don’t just study for marks — <span class="highlight">I try to actually understand concepts and apply them in real life.</span> For me, learning is not a task, it’s a mindset.</p>
+            </div>
+        </section>
+
+        <!-- Text Focus Section -->
+        <section class="hero">
+            <div class="glass-card reveal" style="max-width: 900px; text-align: center;">
+                <p class="highlight" style="font-size: clamp(1.5rem, 3vw, 2.2rem); line-height: 1.4; color: #fff;">
+                    "I believe that growth comes from consistency. Small efforts done every day can create big results over time."
+                </p>
+                <p style="margin-top: 32px;">That’s why I try to stay disciplined and keep pushing myself, even on days when I don’t feel like it. I’m not perfect, and I don’t try to be — but I do aim to become better than I was yesterday.</p>
+            </div>
+        </section>
+
+        <!-- Second Image & Purpose Section -->
+        <section class="split-section split-reverse">
+            <div class="glass-card reveal delay-1">
+                <h2>Clarity & Purpose</h2>
+                <p>Apart from studies, I enjoy exploring ideas and creating things. This website is one of those creations — a place where I can express myself, share my journey, and connect with others. It represents who I am right now and who I am becoming.</p>
+                <p>I’m also someone who values clarity and purpose. I don’t like doing things without meaning. Whether it’s learning a skill, setting a goal, or building something new, <span class="highlight">I want it to have a purpose behind it.</span> I believe that having a clear direction in life is what separates average efforts from meaningful progress.</p>
+            </div>
+            <div class="image-wrapper reveal delay-2">
+                <!-- Using 4000.jpg for the casual/architectural shot -->
+                <img src="4000.jpg" alt="Viraj standing">
+            </div>
+        </section>
+
+        <!-- Final Vision Section -->
+        <section class="hero" style="min-height: 80vh;">
+            <div class="reveal" style="max-width: 800px;">
+                <h2 style="text-align: center;">Looking Ahead</h2>
+                <p>Another thing that defines me is curiosity. I like asking questions, thinking deeply, and understanding things beyond the surface level. This helps me grow not just academically, but also mentally and personally.</p>
+                <p>Looking ahead, I have big goals for my future. I want to achieve success not just in terms of career, but also in terms of personal growth, mindset, and the kind of person I become. I’m willing to work hard for it, stay patient, and keep learning throughout the journey.</p>
+                <p>This website is just a small step, but every big journey starts with a small beginning. Through this platform, I aim to document my progress, share my thoughts, and maybe even inspire someone who is on a similar path.</p>
+                <p class="highlight" style="text-align: center; margin-top: 60px;">
+                    If you’re someone who believes in growth, consistency, and building a better future — then we already have something in common.
+                    <br><br>Thanks for being here.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Scroll Animation Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const reveals = document.querySelectorAll('.reveal');
+
+            const revealOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('active');
+                        // Optional: Stop observing once revealed to keep it visible
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, revealOptions);
+
+            reveals.forEach(reveal => {
+                revealOnScroll.observe(reveal);
+            });
+            
+            // Trigger immediately for elements already in view on load
+            setTimeout(() => {
+                reveals.forEach(reveal => {
+                    const rect = reveal.getBoundingClientRect();
+                    if(rect.top < window.innerHeight) {
+                        reveal.classList.add('active');
+                    }
+                });
+            }, 100);
+        });
+    </script>
+</body>
+</html>
